@@ -151,21 +151,27 @@ public class Ex1 {
 		double ans = x1;
         /** add you code below
          /////////////////// */
+        double left = x1;
+        double right = x2;
+        double fLeft = f(p1, left) - f(p2, left);
 
-        double x = x1;
-        int N = 10000;                              //נבדוק 10,000 נקודות בין x1 ל x2
-        double dx = (x2 - x1) / N;                  // גודל הצעד בין בדיקה לבדיקה
+        for (int i = 0; i < 100; i++) {
+            double mid = (left + right) / 2;
+            double fMid = f(p1, mid) - f(p2, mid);
+            ans = mid;
 
-        for (int i = 0; i <= N; i = i + 1){         // לולאה שעוברת ומחשבת את ערך הפולינום בנקודה x
-            double y1 = f(p1, x);
-            double y2 = f(p2, x);
-
-            if (Math.abs(y1 - y2) < eps){           //אם הפרש הפולינומים קטן מאפסילון מצאנו את x
-             ans = x;
-             break;
+            if (Math.abs(fMid) < eps) {
+                break;
             }
-            x = x + dx;
+
+            if (fLeft * fMid <= 0) {
+                right = mid;
+            } else {
+                left = mid;
+                fLeft = fMid;
+            }
         }
+
 		return ans;
 	}
 	/**
@@ -352,7 +358,7 @@ public class Ex1 {
         int newLen = maxLen - 1;
         while (newLen > 0 && ans[newLen] == 0) newLen--;
 
-        ans = java.util.Arrays.copyOf(ans, newLen + 1);
+        ans = Arrays.copyOf(ans, newLen + 1);
 
 		return ans;
 	}
@@ -380,7 +386,7 @@ public class Ex1 {
         int k = newLen - 1;
         while (k > 0 && ans[k] == 0)
             k--;
-        ans = java.util.Arrays.copyOf(ans, k + 1);
+        ans = Arrays.copyOf(ans, k + 1);
 		return ans;
 	}
 	/**
